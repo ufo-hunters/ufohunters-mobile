@@ -6,19 +6,25 @@
    <link rel="stylesheet" href="css/styles.css" />
    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.4/leaflet.css" /> 
    <script src="http://cdn.leafletjs.com/leaflet-0.4/leaflet.js"></script> 
-   <script type="text/javascript" charset="utf-8" src="js/cordova.js"></script> 
+   <script type="text/javascript" charset="utf-8" src="js/cordova.js"></script>
 </head>
     
 <body>
         
    <div id="sightingsPage" data-role="page">
-	   <div data-role="content" data-position="fixed">
-		   <h3>UFO Hunters</h3>
-	   </div>	
+	   <div data-role="header">
+         <h1>UFO Hunters</h1>
+      </div>
+
+      <div data-role="navbar">
+         <ul>
+            <li><a href="map.html">Sightings near me</a></li>
+         </ul>
+      </div>
+
 	   <div data-role="content">
-	   		 Recent UFO Activity
          <ul id="sightingsList" data-role="listview" data-filter="true"></ul>
-       </div>
+      </div>
    </div>
 
    <script src="js/jquery.js"></script>
