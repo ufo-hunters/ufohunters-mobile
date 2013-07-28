@@ -103,5 +103,6 @@
     </feature>
     <!-- Deprecated plugins element. Remove in 3.0 -->
     <plugins>
+        <plugin name="Geolocation" value="org.apache.cordova.GeoBroker" />
     </plugins>
 </widget>
