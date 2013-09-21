@@ -49,8 +49,8 @@ $('#sightingsPageContinente').live('pageshow', function(event) {
 
 function getSightingsMenu(cont) {
 
-		var codeContinents = ['wd','na','sa','af','as','eu'];
-        var nameContinents = ['World','North America','South America','Africa','Asia','Europe'];
+		var codeContinents = ['wd','na','sa','af','as','eu','oc'];
+        var nameContinents = ['World','North America','South America','Africa','Asia','Europe','Oceania'];
 
         $('#sightingsMenu li').remove();
         var select = "";
