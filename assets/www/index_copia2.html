@@ -1,0 +1,100 @@
+<html>
+<head>
+   <title>UFO Hunters</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+   <link rel="stylesheet" href="css/styles.css" />
+   <link rel="stylesheet" href="css/leaflet.css" /> 
+    <script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.3.2.min.js"></script>
+   <script type="text/javascript" charset="utf-8" src="js/cordova.js"></script>
+   <script type="text/javascript" charset="utf-8" src="js/leaflet.js"></script>
+
+   <script type="text/javascript" charset="utf-8">
+
+    document.addEventListener("deviceready", onDeviceReady, false);
+    var myPosition;
+
+    function onDeviceReady() {
+        console.log('Device ready');
+        navigator.geolocation.getCurrentPosition(onSuccess, onError, {enableHighAccuracy:true});
+    }
+
+    function onSuccess(position) {
+
+        myPosition = position;
+          console.log('lat: ' + position.coords.latitude);
+
+    }
+
+    function onError(error) {
+        alert('code: '    + error.code    + '\n' +
+              'message: ' + error.message + '\n');
+    }
+
+   </script>
+</head>
+<body>
+<div id="sightingsPage" data-role="page">
+<div class="header">
+	<div class="wrap">
+		<div class="header-top">
+			<div class="logo">
+				<a href="index.html"><h1>UFO-Hunters.com</h1></a>
+			</div>
+			<div class="top-nav">
+				<ul>
+					<li><a href="continente - copia.html?cont=wd"><img src="images/wd.png"  alt="World" /></a></li>
+					<li><a href="continente - copia.html?cont=na"><img src="images/na.png"  alt="North America" /></a></li>
+					<li><a href="continente - copia.html?cont=sa"><img src="images/sa.png"  alt="South America" /></a></li>
+					<li><a href="continente - copia.html?cont=af"><img src="images/af.png"  alt="Africa" /></a></li>
+					<li><a href="continente - copia.html?cont=as"><img src="images/as.png"  alt="Asia" /></a></li>
+					<li><a href="continente - copia.html?cont=eu"><img src="images/eu.png"  alt="Europe" /></a></li>
+					<li><a href="continente - copia.html?cont=oc"><img src="images/oc.png"  alt="Ocenia" /></a></li>
+					<li><a href="map.html"><img src="images/gps.png"  alt="Near Sightings" /></a></li>
+				</ul>
+			</div>
+			<div class="clear"></div>
+		</div>		
+	</div>
+</div>
+<div class="main">
+ 	<div class="wrap">
+ 		<div class="content">
+				<div class="contentbox">
+					<div class="featured-box">
+						  <h1>Welcome!</h1>
+						  <p>In the menu above you can see the links to see the 50 latest UFO sightings, worldwide, by continent, or the most current closest to your current position.</p>
+						  <div class="clear"></div>
+					</div>
+				</div>
+ 		
+				<div class="hr_invisible xlarge"></div>
+ 				<div class="strip-box1">
+ 						<h2 class="strip">
+                              <span class="strip-inner">The last 10 UFO sightings <span class="last">are the following</span></span>
+                        </h2>
+                </div>
+				<div class="content-middle">
+						<div class="col_1_of_2 span_1_of_2">
+							<ul class="list-2" id="sightingsList" data-role="listview">							  
+							</ul>
+						</div>				
+						<div class="clear"></div>
+				</div>
+		
+		</div>
+	</div>
+
+		<div class="footer">
+			<div class="wrap">
+				<div class="copy">
+					<p> @ 2013 UFO-Hunters-com</p>
+				</div>
+			</div>
+		</div>
+
+</div>
+</div>
+
+</body>
+
+</html>

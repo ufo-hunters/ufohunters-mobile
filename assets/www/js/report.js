@@ -1,6 +1,9 @@
 $('#reportPage').live('pageshow', function(event) {
+	 
   var id = getUrlVars()["id"];
+ 
   $.getJSON(serviceURL + '/reports/' + id + '.json', displayReport);
+  	  
 });
 
 function getUrlVars() {
@@ -53,7 +56,7 @@ function showLocation(lat, lon) {
   console.log("geo: " + lat + "," + lon);
   
   var map = L.map('map').setView([lat, lon], 14); 
-  L.tileLayer(' http://tile.openstreetmap.org/{z}/{x}/{y}.png', { 
+  L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', { 
     maxZoom: 18 
   }).addTo(map); 
   

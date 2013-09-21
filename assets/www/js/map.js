@@ -33,7 +33,7 @@ function displaySightings(lat, lon) {
 }
 
 function getNearestSightings(lat, lon, map) {
-    
+    var serviceURL = "http://www.ufo-hunters.com/";
 	$.getJSON(serviceURL + 'reports/nearof/' + lon + '/' + lat + '/nearest.json', function(data) {
 	     $.each(data, function(key, val) {
 		 	var sightingDate = formatStringDate(val.sighted_at);

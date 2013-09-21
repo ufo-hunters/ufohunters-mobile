@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+   <title>UFO Hunters</title>
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+   <link rel="stylesheet" href="css/jquery.mobile-1.3.2.min.css" />
+   <link rel="stylesheet" href="css/styles.css" />   
+   <link rel="stylesheet" href="css/leaflet.css" /> 
+   <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+   <script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.3.2.min.js"></script>   
+   <script type="text/javascript" charset="utf-8" src="js/leaflet.js"></script>
+   <script>
+
+var youAreHereIcon = L.icon({
+	iconUrl: './img/you-are-here-2.png',
+	iconSize: [32, 37]
+});
+
+var ufoIcon = L.icon({
+	iconUrl: './img/ufo.png',
+	iconSize: [32, 37]
+});
+
+function displaySightings(lat, lon) {
+
+	// Show my current position
+
+	console.log("geo: " + lat + "," + lon);
+
+    var map = L.map('map-nearest-sightings').setView([lat, lon], 8); 
+    L.tileLayer(' http://tile.openstreetmap.org/{z}/{x}/{y}.png', { 
+      maxZoom: 18 
+    }).addTo(map); 
+      
+    L.marker([lat, lon], {icon: youAreHereIcon}).addTo(map);
+
+    // Display sightings area
+    var circle = L.circle([lat, lon], 100000).addTo(map);
+
+    getNearestSightings(lat, lon, map);
+
+}
+
+function getNearestSightings(lat, lon, map) {
+    
+	$.getJSON('http://www.ufo-hunters.com/reports/nearof/' + lon + '/' + lat + '/nearest.json', function(data) {
+	     $.each(data, function(key, val) {
+		 	var sightingDate = formatStringDate(val.sighted_at);
+		    var location = val.location;
+		    var id = val._id;
+		    var coord = val.coord;
+		    if (coord) {
+		    	console.log('near coord: ' + coord[1] + ' ' + coord[0]);
+		    	var marker = L.marker([coord[1], coord[0]], {icon: ufoIcon}).addTo(map);
+		    	marker.bindPopup('<strong><a href="report.html?id=' + id + '">' + location + '</a></strong><br/>' + sightingDate);
+		    }
+		  });
+	});
+}
+
+   </script>
+</head>
+
+<body>
+
+<div id="mapPage" data-role="page" data-add-back-btn="true">
+  <div data-role="header" class="header wrap header-top logodetalle">
+    <p>UFO Hunters</p>
+  </div>
+
+  <div data-role="content">
+    <div id="map-nearest-sightings" style="width: 100%; height: 500px;"></div>
+  </div>
+</div>
+
+<script>
+var lat            = 46.4476278;
+var lon            = -120.4203382;
+ displaySightings(lat, lon);
+</script>
+
+
+</body>
+
+</html>

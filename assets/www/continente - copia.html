@@ -1,0 +1,197 @@
+<html>
+<head>
+   <title>UFO Hunters</title>
+   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="css/jquery.mobile-1.3.2.min.css" />
+   <link rel="stylesheet" href="css/styles.css" />   
+   <link rel="stylesheet" href="css/leaflet.css" /> 
+   <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+   <script type="text/javascript" charset="utf-8" src="js/jquery.mobile-1.3.2.min.js"></script>   
+   <script type="text/javascript" charset="utf-8" src="js/leaflet.js"></script>
+
+<script>
+
+var serviceURL = "http://www.ufo-hunters.com/";
+
+function empieza (cont) {
+
+		//var cont = getUrlVars()["cont"];	
+		var nameCont = "";
+		var urlCont = "";
+		switch (cont)
+		{
+			case "na":
+			  nameCont = "North America";
+			  urlCont = "sightings/northamerica.json";
+			  break;
+			case "sa":
+			  nameCont = "South America";
+			  urlCont = "sightings/southamerica.json";
+			  break;
+			case "af":
+			  nameCont = "Africa";
+			  urlCont = "sightings/africa.json";
+			  break;
+			case "as":
+			  nameCont = "Asia";
+			  urlCont = "sightings/asia.json";
+			  break;
+			case "eu":
+			  nameCont = "Europe";
+			  urlCont = "sightings/europe.json";
+			  break;
+			case "oc":
+			  nameCont = "Oceania";
+			  urlCont = "sightings/oceania.json";
+			  break;
+			case "wd":
+			  nameCont = "World";
+			  urlCont = "reports.json";
+			  break;
+			default:
+			  nameCont = "World";
+			  urlCont = "reports.json";
+			  break;
+		}
+
+
+		getSightingsMenu(cont);
+		getSightingsDatosContinent(cont,nameCont);
+		getSightingsContinenteList(cont);
+}
+
+function getSightingsMenu(cont) {
+
+		var codeContinents = ['wd','na','sa','af','as','eu'];
+        var nameContinents = ['World','North America','South America','Africa','Asia','Europe'];
+
+        $('#sightingsMenu li').remove();
+        var select = "";
+        for (i=0;i<codeContinents.length;i++){
+        	select = "";
+			if(cont==codeContinents[i]){select = ' class="active"';}
+			$('#sightingsMenu').append('<li' + select + '><a href="continente.html?cont=' + codeContinents[i] + '"><img src="images/' + codeContinents[i] + '.png"  alt="' + nameContinents[i] + '"/></a></li>');
+
+        }
+        $('#sightingsMenu').append('<li><a href="map.html"><img src="images/gps.png"  alt="Near Sightings" /></a></li>');
+				
+}
+
+function getSightingsDatosContinent(cont,nameCont){
+
+		
+		$('#sightingsDatosContinent').append('<h1>' + nameCont + '</h1>').append('<p><img src="images/' + cont + '_big.png"  alt="' + nameCont + '" /></p>').append('<div class="clear"></div>');  
+					  
+}						  
+
+function getSightingsContinenteList(cont) {
+
+    $.mobile.loading('show')
+	$.ajax({
+	  dataType: "json",
+	   url: serviceURL + urlCont,
+	  //data: { "id": username },
+	  beforeSend : function() {$.mobile.loading('show')},
+      complete   : function() {$.mobile.loading('hide')},
+	  type: "GET",
+	  success: function(data){
+			showInfo(data);
+			$.mobile.loading('hide')
+	  },
+		error: function(dato){
+			$.mobile.loading('hide')
+			alert("You don't have internet connection, try it more later, sorry!");
+	  }
+	});
+
+
+    //$.getJSON(serviceURL + 'reports.json', function(data) {
+    function showInfo(data) {	
+	     $('#sightingsList li').remove();
+	     $.each(data, function(key, val) {
+		     var sightingDate = val.sighted_at;
+			 var sightingDay;
+			 var sightingMonth; 
+			 var sightingYear; 
+		     if (sightingDate.length >= 8) {
+		    	 var year = sightingDate.substring(0,4);
+		    	 var month = sightingDate.substring(4,6);
+		    	 var day = sightingDate.substring(6,8);
+		    	 var date = new Date(year, month-1, day);					
+		    	 sightingDate = $.datepicker.formatDate("DD d. MM yy", date);	
+				 sightingDay = $.datepicker.formatDate("d", date);
+				 sightingMonth = $.datepicker.formatDate("M", date).toUpperCase();	
+				 sightingYear = $.datepicker.formatDate("yy", date);					 
+		     } else {
+		    	 sightingDate = "N/A";
+		     }
+		     $('#sightingsList').append('<li><a href="report.html?id=' + val._id + '"><strong><em>' + sightingDay + '</em><i class="' + sightingMonth + '">' + sightingMonth + '</i><b class="' + sightingMonth + '">' + sightingYear + '</b></strong><b>' + val.location + '</b><p><u>Reported on:</u>' + sightingDate + '</p><p><u>Shape:</u>' + sightingDay + '</p></a></li>');
+			 
+		  });		
+		$('#sightingsList').listview('refresh');
+	}		
+	//});
+}
+</script>
+
+
+
+</head>
+<body>
+<div id="sightingsPageContinente" data-role="page">
+<div class="header">
+	<div class="wrap">
+		<div class="header-top">
+			<div class="logo" >
+				<a href="index.html"><h1>UFO-Hunters.com</h1></a>
+			</div>
+			<div class="top-nav" >
+				<ul id="sightingsMenu">
+				</ul>
+			</div>
+			<div class="clear"></div>
+		</div>		
+	</div>
+</div>
+<div class="main">
+ 	<div class="wrap">
+ 		<div class="content">
+				<div class="contentbox">
+					<div class="featured-box" id="sightingsDatosContinent">
+						 
+					</div>
+				</div>
+ 		
+				<div class="hr_invisible xlarge"></div>
+ 				<div class="strip-box1">
+ 						<h2 class="strip">
+                              <span class="strip-inner">The last 50 UFO sightings <span class="last">are the following</span></span>
+                        </h2>
+                </div>
+				<div class="content-middle">
+						<div class="col_1_of_2 span_1_of_2">
+							<ul class="list-2" id="sightingsList" >							  
+							</ul>
+						</div>				
+						<div class="clear"></div>
+				</div>
+		
+		</div>
+	</div>
+
+		<div class="footer">
+			<div class="wrap">
+				<div class="copy">
+					<p> @ 2013 UFO-Hunters-com</p>
+				</div>
+			</div>
+		</div>
+
+</div>
+</div>
+   <script>empieza("na");</script>
+
+
+</body>
+
+</html>
